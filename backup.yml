@@ -1,0 +1,23 @@
+- name: Create weekly database backup script
+  hosts: database
+  become: true
+
+  tasks:
+  - name: Create backup directory
+    file:
+      path: /backups
+      state: directory
+      mode: '0755'
+
+  - name: Create backup script
+    copy:
+      dest: /etc/cron.weekly/db_backup
+      mode: '0755'
+      content: |
+        #!/bin/bash
+        DB_NAME="mydatabase"
+        BACKUP_FILE=/backups/${DB_NAME}_$(date +%Y-%m-%d).sql
+        mysqldump -u pulsar --password=zapatero $DB_NAME > $BACKUP_FILE
+
+  - name: Run backup script
+    command: /etc/cron.weekly/db_backup

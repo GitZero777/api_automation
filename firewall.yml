@@ -1,0 +1,30 @@
+---
+- name: Set up firewall rules
+  hosts: all
+  become: true
+
+  tasks:
+    - name: Allow SSH access
+      ufw:
+        rule: allow
+        proto: tcp
+        port: 22
+
+    - name: Allow HTTP and HTTPS access for web server
+      ufw:
+        rule: allow
+        proto: tcp
+        port: "{{ item }}"
+      loop:
+        - 80
+        - 443
+
+    - name: Allow MySQL access for database server
+      ufw:
+        rule: allow
+        proto: tcp
+        port: 3306
+
+    - name: Enable ufw firewall
+      ufw:
+        state: enabled
