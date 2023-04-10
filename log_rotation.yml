@@ -1,0 +1,129 @@
+---
+- name: Set up log rotation for main
+  hosts: localhost
+  become: true
+
+  tasks:
+    - name: "Create or ensure log dir"
+      file:
+        path: "/var/log"
+        state: directory
+        recurse: yes
+        mode: "0755"
+        owner: "root"
+        group: "root"
+
+    - name: "create log file"
+      file:
+        path: "/var/log/root"
+        state: touch
+        mode: "0644"
+        owner: "root"
+        group: "root"
+
+    - name: "Create logrotate config file"
+      file:
+        path: "/etc/logrotate.d/root"
+        state: touch
+        mode: "0644"
+        owner: "root"
+        group: "root"
+
+    - name: "Add config block to logrotate config file"
+      blockinfile:
+        path: "/etc/logrotate.d/root"
+        block: |
+          /var/log/root {
+            maxsize 100M
+            copytruncate
+            notifempty
+            missingok
+            compress
+            delaycompress
+          }
+          
+- name: Set up log rotation for webserver
+  hosts: webserver
+  become: true
+
+  tasks:
+    - name: "Create or ensure log dir"
+      file:
+        path: "/var/log"
+        state: directory
+        recurse: yes
+        mode: "0755"
+        owner: "root"
+        group: "root"
+
+    - name: "create log file"
+      file:
+        path: "/var/log/root"
+        state: touch
+        mode: "0644"
+        owner: "root"
+        group: "root"
+
+    - name: "Create logrotate config file"
+      file:
+        path: "/etc/logrotate.d/root"
+        state: touch
+        mode: "0644"
+        owner: "root"
+        group: "root"
+
+    - name: "Add config block to logrotate config file"
+      blockinfile:
+        path: "/etc/logrotate.d/root"
+        block: |
+          /var/log/root {
+            maxsize 100M
+            copytruncate
+            notifempty
+            missingok
+            compress
+            delaycompress
+          }
+          
+- name: Set up log rotation for database
+  hosts: database
+  become: true
+
+  tasks:
+    - name: "Create or ensure log dir"
+      file:
+        path: "/var/log"
+        state: directory
+        recurse: yes
+        mode: "0755"
+        owner: "root"
+        group: "root"
+
+    - name: "create log file"
+      file:
+        path: "/var/log/root"
+        state: touch
+        mode: "0644"
+        owner: "root"
+        group: "root"
+
+    - name: "Create logrotate config file"
+      file:
+        path: "/etc/logrotate.d/root"
+        state: touch
+        mode: "0644"
+        owner: "root"
+        group: "root"
+
+    - name: "Add config block to logrotate config file"
+      blockinfile:
+        path: "/etc/logrotate.d/root"
+        block: |
+          /var/log/root {
+            maxsize 100M
+            copytruncate
+            notifempty
+            missingok
+            compress
+            delaycompress
+          }
